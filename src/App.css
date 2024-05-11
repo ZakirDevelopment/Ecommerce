@@ -1,0 +1,47 @@
+/* Button and Number Styling */
+.btn {
+    display: inline-block;
+    margin: 10px;
+  }
+  
+  .btn button,
+  .btn .number {
+    background-color: #FF6B6B; /* Red color */
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5); /* Soft shadow */
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  .btn button:hover,
+  .btn .number:hover {
+    background-color: #B5838D; /* Purple color */
+  }
+  
+  .btn .number {
+    background-color: #FFA04D; /* Orange color */
+    margin: 0 5px; /* Adjusted spacing between buttons and number */
+  }
+  
+  /* Gradient background for buttons */
+  .btn button {
+    background-image: linear-gradient(to bottom right, #FF6B6B, #FFA04D); /* Gradient from red to orange */
+  }
+  
+  /* Gradient background for number */
+  .btn .number {
+    background-image: linear-gradient(to bottom right, #FFA04D, #B5838D); /* Gradient from orange to purple */
+  }
+
+
+  .bgColor {
+    min-height: 100vh;
+    background: #ECEFF1;
+  }
+
+
+            
