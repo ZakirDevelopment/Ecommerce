@@ -29,7 +29,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import moment from 'moment';
 import Modal from '@mui/material/Modal';
-import AddAccount from './AddAccount';
+import AddInventory from './AddInventory';
 
 const style = {
   position: 'absolute',
@@ -45,7 +45,7 @@ const style = {
 
 
 
-export default function AccountsList() {
+export default function InventoryList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
@@ -55,10 +55,10 @@ export default function AccountsList() {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    getAccounts();
+    getUsers();
   }, []);
 
-  const getAccounts = async () => {
+  const getUsers = async () => {
     const data = await getDocs(empCollectionRef);
     setRows(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
@@ -92,7 +92,7 @@ export default function AccountsList() {
     const userDoc = doc(db, "products", id);
     await deleteDoc(userDoc);
     Swal.fire("Deleted!", "Your file has been deleted.", "success");
-    getAccounts();
+    getUsers();
   };
 
   const filterData = (v) => {
@@ -100,7 +100,7 @@ export default function AccountsList() {
       setRows([v]);
     } else {
       setRows([]);
-      getAccounts();
+      getUsers();
     }
   };
 
@@ -114,12 +114,12 @@ export default function AccountsList() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddAccount CloseEvent={handleClose} />
+          <AddInventory CloseEvent={handleClose} />
         </Box>
       </Modal>
     </div>
     <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
-      <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Accounts</Typography>
+      <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory</Typography>
       <Divider />
       <Box height={10} />
       <Stack direction="row" spacing={2} className="my-2 mb-2">
@@ -179,8 +179,8 @@ export default function AccountsList() {
                     <TableCell key={row.account_number} align='left'> {row.amount} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.advance} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.balance} </TableCell>
-                    <TableCell key={row.account_number} align='left'> {moment(row.created_at).format('DD/MM/YYYY')} </TableCell>
-                    <TableCell key={row.account_number} align='left'> {moment(row.updated_at).format('DD/MM/YYYY')} </TableCell>
+                    <TableCell key={row.account_number} align='left'> {moment.utc(row.created_at.seconds * 1000).format('DD/MM/YYYY')} </TableCell>
+                    <TableCell key={row.account_number} align='left'> {moment.utc(row.updated_at.seconds * 1000).format('DD/MM/YYYY')} </TableCell>
                     <TableCell align="left">
                       <Stack spacing={2} direction="row">
                         <EditIcon

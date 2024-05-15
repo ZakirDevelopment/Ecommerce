@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   value: 0,
   openSideNav: true,
+  AccountRows:[]
 }
 
 export const counterSlice = createSlice({
@@ -27,6 +28,9 @@ export const counterSlice = createSlice({
     toggleOpen: (state) => {
       state.openSideNav =   !state.openSideNav 
     },
+    updateAccountsRows: (state, payload) =>{
+      state.AccountRows = payload
+    }
   },
 })
 

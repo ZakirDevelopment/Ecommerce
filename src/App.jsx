@@ -7,6 +7,7 @@ import Accounts from './Pages/Accounts';
 import Navbar from './Components/Navbar';
 import SideNav from './Components/SideNav';
 import { Box, Grid } from '@mui/material';
+import InventoryList from './Components/Inventory/InventoryList';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                   <Route path='/' exact element={<Home />} />
                   <Route path='/about' exact element={<About />} />
                   <Route path='/accounts' exact element={<Accounts />} />
+                  <Route path='/inventory' exact element={<InventoryList />} />
                 </Routes> 
             </Box>
         </div>
