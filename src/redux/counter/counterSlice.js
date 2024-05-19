@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   value: 0,
   openSideNav: true,
-  AccountRows:[]
+  accountRows:[]
 }
 
 export const counterSlice = createSlice({
@@ -28,13 +28,13 @@ export const counterSlice = createSlice({
     toggleOpen: (state) => {
       state.openSideNav =   !state.openSideNav 
     },
-    updateAccountsRows: (state, payload) =>{
-      state.AccountRows = payload
+    updateAccountsRows: (state, action) =>{
+      state.accountRows = action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, toggleOpen } = counterSlice.actions
+export const { increment, decrement, incrementByAmount, toggleOpen, updateAccountsRows } = counterSlice.actions
 
 export default counterSlice.reducer
