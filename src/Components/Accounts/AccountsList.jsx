@@ -30,6 +30,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import moment from 'moment';
 import Modal from '@mui/material/Modal';
 import AddAccount from './AddAccount';
+import { useSelector } from 'react-redux';
+import EditAccount from './EditAccount';
 
 const style = {
   position: 'absolute',
@@ -48,15 +50,26 @@ const style = {
 export default function AccountsList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const rowsFromStore = useSelector((state)=> state.counter.accountRows)
   const [rows, setRows] = useState([]);
   const empCollectionRef = collection(db, "accounts");
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const handleEditOpen = () => setEditOpen(true);
   const handleClose = () => setOpen(false);
+  const handleEditClose = () => setEditOpen(false);
+  const [formId, setFormId] = useState("");
+
+  console.log("accccccccccc",rowsFromStore)
 
   useEffect(() => {
     getAccounts();
   }, []);
+
+  useEffect(()=>{
+    setRows(rowsFromStore)
+  },[rowsFromStore])
 
   const getAccounts = async () => {
     const data = await getDocs(empCollectionRef);
@@ -89,7 +102,7 @@ export default function AccountsList() {
   };
 
   const deleteApi = async (id) => {
-    const userDoc = doc(db, "products", id);
+    const userDoc = doc(db, "accounts", id);
     await deleteDoc(userDoc);
     Swal.fire("Deleted!", "Your file has been deleted.", "success");
     getAccounts();
@@ -104,6 +117,26 @@ export default function AccountsList() {
     }
   };
 
+  const editAccount = (a,b,c) =>{
+    const data = {
+      id:a,
+      Product:["K1","K2","K3"],
+      account_number:1221,
+      advance:500,
+      area:"parampurwa",
+      area_code:"D2",
+      balance:800,
+      amount:1300,
+      contact:[999,888,777],
+      created_at:String(new Date()),
+      name:"pradeep",
+      updated_at:String(new Date())
+    }
+
+    setFormId(data)
+    handleEditOpen()
+  }
+
   return (
     <>
      <div>
@@ -115,6 +148,16 @@ export default function AccountsList() {
       >
         <Box sx={style}>
           <AddAccount CloseEvent={handleClose} />
+        </Box>
+      </Modal>
+      <Modal
+        open={editOpen}
+        onClose={handleEditClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <EditAccount data={formId} CloseEvent={handleEditClose} />
         </Box>
       </Modal>
     </div>
@@ -190,7 +233,7 @@ export default function AccountsList() {
                             cursor: "pointer",
                           }}
                           className="cursor-pointer"
-                        // onClick={() => editUser(row.id)}
+                        onClick={() => editAccount(row.id, row.name, row.price)}
                         />
                         <DeleteIcon
                           style={{
