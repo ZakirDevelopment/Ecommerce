@@ -8,7 +8,7 @@ import Navbar from './Components/Navbar';
 import SideNav from './Components/SideNav';
 import { Box, Grid } from '@mui/material';
 import InventoryList from './Components/Inventory/InventoryList';
-
+import CollectivesList from './Components/Collectives/CollectivesList'
 function App() {
   return (
     <>
@@ -24,6 +24,8 @@ function App() {
                   <Route path='/about' exact element={<About />} />
                   <Route path='/accounts' exact element={<Accounts />} />
                   <Route path='/inventory' exact element={<InventoryList />} />
+                  <Route path='/Collectives' exact element={<CollectivesList />} />
+
                 </Routes> 
             </Box>
         </div>

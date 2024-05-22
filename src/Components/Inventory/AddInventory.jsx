@@ -18,6 +18,7 @@ export default function AddInventory({ CloseEvent, onAdd }) {
     purchasedOn: new Date().toISOString().split('T')[0], // Default to today's date
     supplier: '',
     batchNumber: '',
+    imageURL: '', // Added imageURL to form state
   });
   const [formErrors, setFormErrors] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -87,17 +88,7 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               <CloseIcon />
             </IconButton>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              name="productID"
-              label="Product ID"
-              value={formValues.productID}
-              onChange={handleInputChange}
-              error={formErrors.productID}
-              helperText={formErrors.productID ? "Product ID is required" : ""}
-            />
-          </Grid>
+       
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -109,7 +100,19 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               helperText={formErrors.productName ? "Product Name is required" : ""}
             />
           </Grid>
-          <Grid item xs={12}>
+
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              name="productID"
+              label="Product ID"
+              value={formValues.productID}
+              onChange={handleInputChange}
+              error={formErrors.productID}
+              helperText={formErrors.productID ? "Product ID is required" : ""}
+            />
+          </Grid>
+          <Grid item xs={6}>
             <TextField
               fullWidth
               name="productCategory"
@@ -189,6 +192,17 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               onChange={handleInputChange}
               error={formErrors.batchNumber}
               helperText={formErrors.batchNumber ? "Batch Number is required" : ""}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              name="imageURL"
+              label="Image URL"
+              value={formValues.imageURL}
+              onChange={handleInputChange}
+              error={formErrors.imageURL}
+              helperText={formErrors.imageURL ? "Image URL is required" : ""}
             />
           </Grid>
           <Grid item xs={12}>

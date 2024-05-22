@@ -1,13 +1,12 @@
-import React from 'react'
-import SideNav from '../Components/SideNav';
-import { Box } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import React from 'react';
+import { Box, CssBaseline, Typography, IconButton } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import SideNav from '../Components/SideNav';
 import Navbar from '../Components/Navbar';
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -15,12 +14,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
-
-const AppBar = styled(MuiAppBar, {
+const StyledAppBar = styled(AppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
@@ -39,11 +36,46 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 export default function Home() {
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
     return (
-
-
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            Home
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <StyledAppBar position="fixed" open={open}>
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap component="div">
+                        E-Commerce
+                    </Typography>
+                </Toolbar>
+            </StyledAppBar>
+            <SideNav open={open} onClose={handleDrawerClose} drawerWidth={drawerWidth} />
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                <DrawerHeader />
+                <Typography variant="h4" gutterBottom>
+                    Welcome to Our E-Commerce Store!
+                </Typography>
+                <Typography variant="body1" paragraph>
+                    Explore our wide range of products and enjoy a seamless shopping experience.
+                </Typography>
+                {/* Add more content such as product listings, promotions, etc. */}
+            </Box>
         </Box>
-    )
+    );
 }

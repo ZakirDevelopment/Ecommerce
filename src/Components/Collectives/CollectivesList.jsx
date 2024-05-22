@@ -10,7 +10,7 @@ import { db } from '../../firebase-config';
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import moment from 'moment';
-import AddInventory from './AddInventory';
+import AddCollectives from './AddCollectives';
 
 const style = {
   position: 'absolute',
@@ -24,7 +24,7 @@ const style = {
   p: 4,
 };
 
-export default function InventoryList() {
+export default function CollectivesList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
@@ -98,7 +98,7 @@ export default function InventoryList() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddInventory CloseEvent={handleClose} onAdd={getUsers} />
+          <AddCollectives CloseEvent={handleClose} onAdd={getUsers} />
         </Box>
       </Modal>
       <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
@@ -126,38 +126,22 @@ export default function InventoryList() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" style={{ minWidth: '50px' }}>S.No.</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Image</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Product ID</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Product Name</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Category</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Purchase Price (₹)</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Selling Price (₹)</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Quantity</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Purchased On</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Supplier</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Batch Number</TableCell>
+                <TableCell align="left" style={{ minWidth: '50px' }}>Date</TableCell>
+                <TableCell align="left" style={{ minWidth: '50px' }}>Field</TableCell>
+                <TableCell align="left" style={{ minWidth: '50px' }}>Amount</TableCell>
+                <TableCell align="left" style={{ minWidth: '50px' }}>Valid</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
+                .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align='left'>{page * rowsPerPage + index + 1}</TableCell>
-                    <TableCell align='left'>
-                      <img src={row.imageURL} alt={row.productName} style={{ width: '50px', height: '50px' }} />
-                    </TableCell>
-                    <TableCell align='left'>{row.productID}</TableCell>
-                    <TableCell align='left'>{row.productName}</TableCell>
-                    <TableCell align='left'>{row.productCategory}</TableCell>
-                    <TableCell align='left'>{row.purchasePrice}</TableCell>
-                    <TableCell align='left'>{row.sellingPrice}</TableCell>
-                    <TableCell align='left'>{row.quantity}</TableCell>
-                    <TableCell align='left'>{moment.utc(row.purchasedOn?.seconds * 1000).format('DD/MM/YYYY')}</TableCell>
-                    <TableCell align='left'>{row.supplier}</TableCell>
-                    <TableCell align='left'>{row.batchNumber}</TableCell>
+                    <TableCell align='left'>{moment.utc(row.date?.seconds * 1000).format('DD/MM/YYYY')}</TableCell>
+                    <TableCell align='left'>{row.field}</TableCell>
+                    <TableCell align='left'>{row.amount}</TableCell>
+                    <TableCell align='left'>{row.valid ? 'Yes' : 'No'}</TableCell>
                     <TableCell align="left">
                       <Stack spacing={2} direction="row">
                         <EditIcon

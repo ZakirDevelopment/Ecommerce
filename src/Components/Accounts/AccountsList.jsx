@@ -217,8 +217,8 @@ export default function AccountsList() {
                     <TableCell key={row.account_number} align='left'> {row.account_number} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.name} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.area} </TableCell>
-                    <TableCell key={row.account_number} align='left'> {row.Product.map((prod) => { return (<Grid>{prod}</Grid>) })} </TableCell>
-                    <TableCell key={row.account_number} align='left'> {row.contact.map((con) => { return (<Grid>{con}</Grid>) })} </TableCell>
+                    <TableCell key={row.account_number} align='left'> {row.Product && row.Product.length > 0 && row.Product.map((prod) => { return (<Grid>{prod}</Grid>) })} </TableCell>
+                    <TableCell key={row.account_number} align='left'> {row.contact && row.contact.length > 0 && row.contact.map((con) => { return (<Grid>{con}</Grid>) })} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.amount} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.advance} </TableCell>
                     <TableCell key={row.account_number} align='left'> {row.balance} </TableCell>
