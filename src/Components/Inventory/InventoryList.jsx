@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow,
@@ -102,7 +103,7 @@ export default function InventoryList() {
         </Box>
       </Modal>
       <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
-        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory</Typography>
+        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory1</Typography>
         <Divider />
         <Box height={10} />
         <Stack direction="row" spacing={2} className="my-2 mb-2">
@@ -126,8 +127,6 @@ export default function InventoryList() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" style={{ minWidth: '50px' }}>S.No.</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Image</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Product ID</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Product Name</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Category</TableCell>
@@ -143,12 +142,8 @@ export default function InventoryList() {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => (
+                .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align='left'>{page * rowsPerPage + index + 1}</TableCell>
-                    <TableCell align='left'>
-                      <img src={row.imageURL} alt={row.productName} style={{ width: '50px', height: '50px' }} />
-                    </TableCell>
                     <TableCell align='left'>{row.productID}</TableCell>
                     <TableCell align='left'>{row.productName}</TableCell>
                     <TableCell align='left'>{row.productCategory}</TableCell>
@@ -199,3 +194,5 @@ export default function InventoryList() {
     </>
   );
 }
+
+

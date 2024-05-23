@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -33,6 +33,15 @@ const openedMixin = (theme) => ({
   }),
   overflowX: 'hidden',
 });
+
+const routeTitleMap = {
+  '/': 'Home',
+  '/accounts': `Accounts`,
+  '/about': 'About',
+  '/inventory': 'Inventory',
+  '/collectives': 'Collectives'
+};
+
 
 const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
@@ -84,6 +93,12 @@ export default function SideNav() {
   const open = useSelector((state) => state.counter.openSideNav);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const path = location.pathname;
+    const title = routeTitleMap[path] || 'Default Title';
+    document.title = title;
+  }, [location]);
 
   return (
     <Box sx={{ display: 'flex' }}>
