@@ -102,7 +102,7 @@ export default function CollectivesList() {
         </Box>
       </Modal>
       <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
-        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory</Typography>
+        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Collectives</Typography>
         <Divider />
         <Box height={10} />
         <Stack direction="row" spacing={2} className="my-2 mb-2">
@@ -114,7 +114,7 @@ export default function CollectivesList() {
             onChange={(e, v) => filterData(v)}
             getOptionLabel={(rows) => rows.productName || ""}
             renderInput={(params) => (
-              <TextField {...params} size="small" label="Search Inventory" />
+              <TextField {...params} size="small" label="Search Collectives" />
             )}
           />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>

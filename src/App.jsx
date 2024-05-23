@@ -5,7 +5,7 @@ import Home from './Pages/Home';
 import About from './Pages/About';
 import Accounts from './Pages/Accounts';
 import Navbar from './Components/Navbar';
-import SideNav from './Components/SideNav';
+import SideNav from './Components/SideNav.jsx';
 import { Box, Grid } from '@mui/material';
 import InventoryList from './Components/Inventory/InventoryList';
 import CollectivesList from './Components/Collectives/CollectivesList'
