@@ -6,9 +6,11 @@ import About from './Pages/About';
 import Accounts from './Pages/Accounts';
 import Navbar from './Components/Navbar';
 import SideNav from './Components/SideNav.jsx';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import InventoryList from './Components/Inventory/InventoryList';
 import CollectivesList from './Components/Collectives/CollectivesList'
+import Cart from './Components/Cart/Cart.jsx'
+import CustomerService from './Components/CustomerService/CustomerService.jsx';
 function App() {
   return (
     <>
@@ -24,7 +26,9 @@ function App() {
                   <Route path='/about' exact element={<About />} />
                   <Route path='/accounts' exact element={<Accounts />} />
                   <Route path='/inventory' exact element={<InventoryList />} />
-                  <Route path='/Collectives' exact element={<CollectivesList />} />
+                  <Route path='/collectives' exact element={<CollectivesList />} />
+                  <Route path='/cart' exact element={<Cart />} />
+                  <Route path='/customerService' exact element={<CustomerService   />} />
 
                 </Routes> 
             </Box>
