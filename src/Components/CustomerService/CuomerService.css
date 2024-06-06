@@ -1,0 +1,11 @@
+.heading{
+    background-color: red;
+    text-align: center;
+    border-radius: 10px;
+}
+.text{
+    background-color: #3ca81b;
+    border-radius: 50px;
+    width: 50%;
+    margin-left: 30%;
+}
