@@ -6,7 +6,10 @@ import About from './Pages/About';
 import Accounts from './Pages/Accounts';
 import Navbar from './Components/Navbar';
 import SideNav from './Components/SideNav.jsx';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import SignInSide from './Components/SignUp/signIn';
+import SignUp from './Components/SignUp/signup';
+import ForgetPassword from './Components/SignUp/forgetPassword';
 import InventoryList from './Components/Inventory/InventoryList';
 import CollectivesList from './Components/Collectives/CollectivesList'
 import Cart from './Components/Cart/Cart.jsx'
@@ -15,7 +18,14 @@ function App() {
   return (
     <>
       <BrowserRouter>
-
+      {false?
+      <Routes>
+       <Route path='/' exact element={<SignInSide />} />
+      <Route path='/signin' exact element={<SignInSide />} />
+      <Route path='/signup' exact element={<SignUp />} />
+      <Route path='/forgetPassword' exact element={<ForgetPassword />} />
+      </Routes>
+:
       <div className='bgColor'>
             <Navbar />
             <Box height={70} />
@@ -23,6 +33,7 @@ function App() {
                 <SideNav />
                 <Routes>
                   <Route path='/' exact element={<Home />} />
+                  <Route path='/home' exact element={<Home />} />
                   <Route path='/about' exact element={<About />} />
                   <Route path='/accounts' exact element={<Accounts />} />
                   <Route path='/inventory' exact element={<InventoryList />} />
@@ -34,7 +45,7 @@ function App() {
             </Box>
         </div>
 
-       
+      }    
       </BrowserRouter>
     </>
   );
