@@ -21,6 +21,8 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Import the icon
 import HelpIcon from '@mui/icons-material/Help';
 
+import Footer from '../Pages/Footer';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -272,6 +274,7 @@ export default function SideNav() {
               <ListItemText primary="Customer Service" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
+      <Footer/>
 
         </List>
       </Drawer>
