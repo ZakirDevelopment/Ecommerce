@@ -1,17 +1,18 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow,
-  Divider, Typography, Button, Box, Stack, TextField, Autocomplete, Modal
+  Divider, Typography, Button, Box, Stack, TextField, Autocomplete, Modal, IconButton
 } from '@mui/material';
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SortIcon from "@mui/icons-material/Sort";
 import { db } from '../../firebase-config';
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import moment from 'moment';
 import AddInventory from './AddInventory';
+import zzx from "../../Pages/zzx.jpg"
 
 const style = {
   position: 'absolute',
@@ -29,6 +30,7 @@ export default function InventoryList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const [sortAsc, setSortAsc] = useState(true);
   const inventoryCollectionRef = collection(db, "inventory");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -36,7 +38,7 @@ export default function InventoryList() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [sortAsc]);
 
   const getUsers = async () => {
     const data = await getDocs(inventoryCollectionRef);
@@ -45,7 +47,7 @@ export default function InventoryList() {
       .sort((a, b) => {
         const aTime = a.purchasedOn?.seconds || 0;
         const bTime = b.purchasedOn?.seconds || 0;
-        return bTime - aTime;
+        return sortAsc ? bTime - aTime : aTime - bTime;
       });
     setRows(sortedData);
   };
@@ -90,6 +92,10 @@ export default function InventoryList() {
     }
   };
 
+  const toggleSortOrder = () => {
+    setSortAsc(!sortAsc);
+  };
+
   return (
     <>
       <Modal
@@ -103,7 +109,7 @@ export default function InventoryList() {
         </Box>
       </Modal>
       <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
-        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory1</Typography>
+        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory</Typography>
         <Divider />
         <Box height={10} />
         <Stack direction="row" spacing={2} className="my-2 mb-2">
@@ -119,6 +125,9 @@ export default function InventoryList() {
             )}
           />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
+          <IconButton onClick={toggleSortOrder}>
+            <SortIcon />
+          </IconButton>
           <Button onClick={handleOpen} variant="contained" endIcon={<AddCircleIcon />}>
             Add
           </Button>
@@ -128,6 +137,7 @@ export default function InventoryList() {
             <TableHead>
               <TableRow>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Product ID</TableCell>
+                <TableCell align="left" style={{ minWidth: '50px' }}>Image</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Product Name</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Category</TableCell>
                 <TableCell align="left" style={{ minWidth: '50px' }}>Purchase Price (₹)</TableCell>
@@ -145,6 +155,9 @@ export default function InventoryList() {
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     <TableCell align='left'>{row.productID}</TableCell>
+                    <TableCell align='left'>
+                      <img src={row.imgURL} alt={row.productName} style={{ width: '50px', height: '50px' }} />
+                    </TableCell>
                     <TableCell align='left'>{row.productName}</TableCell>
                     <TableCell align='left'>{row.productCategory}</TableCell>
                     <TableCell align='left'>{row.purchasePrice}</TableCell>
@@ -194,5 +207,3 @@ export default function InventoryList() {
     </>
   );
 }
-
-

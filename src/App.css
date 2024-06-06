@@ -44,4 +44,11 @@
   }
 
 
-            
+            /* App.css */
+.bgColor {
+  background-color: #f0f0f0;
+}
+
+.CheckButton {
+  margin-top: 10px;
+}

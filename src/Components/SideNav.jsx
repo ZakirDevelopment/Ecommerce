@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { useState, useEffect} from 'react';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { useEffect } from 'react';
+import { styled  } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -19,7 +17,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance'; // Import the icon
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Import the icon
+import HelpIcon from '@mui/icons-material/Help';
+
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -36,12 +38,12 @@ const openedMixin = (theme) => ({
 
 const routeTitleMap = {
   '/': 'Home',
-  '/accounts': `Accounts`,
+  '/accounts': 'Accounts',
   '/about': 'About',
   '/inventory': 'Inventory',
-  '/collectives': 'Collectives'
+  '/collectives': 'Collectives',
+  '/cart': 'Cart', // Add route title for Cart
 };
-
 
 const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
@@ -88,7 +90,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function SideNav() {
-  const theme = useTheme();
   const location = useLocation();
   const open = useSelector((state) => state.counter.openSideNav);
   const dispatch = useDispatch();
@@ -203,7 +204,7 @@ export default function SideNav() {
               <ListItemText primary="Inventory" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          
+
           <ListItem key="Collectives" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/collectives")}>
             <ListItemButton
               sx={{
@@ -226,7 +227,53 @@ export default function SideNav() {
               <ListItemText primary="Collectives" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          
+
+          <ListItem key="Cart" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/cart")}>
+            <ListItemButton
+              sx={{
+                background: location.pathname === "/cart" ? "#d1d3d5" : undefined,
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                  color: 'black',
+                }}
+              >
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Cart" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem key="CustomerService" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/CustomerService")}>
+            <ListItemButton
+              sx={{
+                background: location.pathname === "/Customer Service" ? "#d1d3d5" : undefined,
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                  color: 'black',
+                }}
+              >
+                <HelpIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Customer Service" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+
         </List>
       </Drawer>
     </Box>

@@ -1,60 +1,99 @@
+// Home.jsx
 import React from 'react';
-import { Box, CssBaseline, Typography, IconButton } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import { Box, CssBaseline, Typography, IconButton, Container, Grid, TextField, Button, Card, CardContent, CardMedia } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
-import  Image  from './zzx.jpg';
+import Carousel from './Carousel';
+import ProductImg from './jogger.webp';
 
-const drawerWidth = 240;
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
+const StyledAppBar = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  padding: theme.spacing(2),
 }));
 
-const StyledAppBar = styled(AppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    }),
-}));
+const products = [
+  { id: 1, name: 'Product 1', price: '₹10.00', image: ProductImg },
+  { id: 2, name: 'Product 2', price: '₹20.00', image: ProductImg },
+  { id: 3, name: 'Product 3', price: '₹30.00', image: ProductImg },
+];
 
 export default function Home() {
-    const [open, setOpen] = React.useState(false);
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', pt: 0 }}>
+      <CssBaseline />
+     
+      <Box sx={{ position: 'relative', width: '100%', mt: 0, mb: 8 }}>
+        <Carousel />
+        <Typography
+          variant="h1"
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '100%',
+            height: '50%',
+            color: 'white',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '10px 20px',
+            boxSizing: 'border-box',
+            zIndex: 1
+          }}
+        >
+          Zaid's Store
+        </Typography>
+      </Box>
 
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 4, width: '100%' }}>
+        <Container>
+          <Typography variant="h4" gutterBottom align="center">
+            Welcome to Our E-Commerce Store!
+          </Typography>
+          <Typography variant="body1" paragraph align="center">
+            Discover our wide range of products and enjoy exclusive deals!
+          </Typography>
 
-    return (
-        <Box sx={{ display: '/'}}>
-            <img src={Image} alt="About Us" style={{ width: '50%', borderRadius: '8px' }} />
+          <Box sx={{ mt: 4 }}>
+            <Typography variant="h5" gutterBottom align="center">
+              Featured Products
+            </Typography>
+            <Grid container spacing={4} justifyContent="center">
+              {products.map((product) => (
+                <Grid item key={product.id} xs={12} sm={6} md={4}>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      height="150"
+                      image={product.image}
+                      alt={product.name}
+                    />
+                    <CardContent>
+                      <Typography variant="h6" component="div">
+                        {product.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {product.price}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Container>
 
-           
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                {/* <DrawerHeader /> */}
-
-                <Typography variant="h4" gutterBottom>
-                    Welcome to Our E-Commerce Store!
-                </Typography>
-                <Typography variant="body1" paragraph>
-                    Explore our wide range of products and enjoy a seamless shopping experience.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid omnis, fuga harum earum cupiditate sed reiciendis repellat accusantium voluptatem? Quasi dolorum minus fugit laboriosam voluptatibus placeat quos nesciunt voluptas nihil enim, quaerat molestias odio. Sint maiores tempore modi qui minus dicta officiis, adipisci, dolorem ullam ut nulla numquam non iure eum maxime alias. Facere enim dolores cupiditate sequi qui sint odit? Aspernatur veniam accusantium, adipisci aut minima incidunt provident iste quos at ratione reprehenderit ad a sit placeat consequatur? Possimus id esse quaerat pariatur magnam totam, non voluptate voluptatibus delectus excepturi veniam vitae eos expedita, ex voluptatum iure autem quod asperiores iste illo enim odio sed? Fugit, quidem dignissimos saepe nostrum doloribus veniam? Facere molestias sit dolorem voluptas neque reiciendis asperiores sunt facilis unde, eos ea iste sequi dolorum aperiam accusamus fuga corporis, deleniti debitis eum similique assumenda rem? Vel, iste. Eos id minima accusamus nobis quo non quas delectus dolorem at voluptates ad magnam nihil, vitae vel pariatur molestiae aliquid! Sint, voluptates, doloremque, iusto veritatis illo assumenda fugit in eligendi itaque exercitationem eveniet recusandae dolorum voluptatibus reprehenderit tenetur deserunt autem ut quo? Quod, aliquid natus optio corporis aspernatur quisquam eligendi dolor enim maiores quam suscipit quos eius reiciendis laborum totam ipsa doloribus nobis quas voluptatum facere animi non ullam recusandae ipsum? Rerum molestiae doloremque perspiciatis asperiores, voluptate autem fuga consectetur nam eos veritatis ipsa corrupti harum alias tenetur aliquam excepturi incidunt assumenda vitae reprehenderit suscipit, velit illum rem voluptatibus? Ipsam nihil officia ad facilis eaque distinctio doloremque eveniet a sint quidem ullam voluptatum porro molestias numquam tempore, facere illo non soluta vel? Debitis reiciendis numquam a provident sequi deserunt illo magnam. Earum, esse dolor. Saepe eaque aliquam voluptas a praesentium in distinctio aut quibusdam dolorum nulla est, ex magnam dolores id ipsa. Quos quod ratione nobis molestias voluptas delectus mollitia atque excepturi dolorem nulla vel eos, saepe repudiandae totam obcaecati ab ipsa rerum quaerat ad incidunt provident facilis. Consequatur rem nostrum quod iusto saepe vel ad eaque? Doloribus nemo, natus quasi, ipsa architecto, quas tenetur earum labore praesentium debitis sint explicabo. Reprehenderit, tempore veritatis, maiores recusandae consequatur nemo praesentium qui molestias blanditiis sapiente dicta non aspernatur. Similique vero atque qui illo dignissimos nihil doloremque rem labore eius reprehenderit. Quidem iusto atque cumque, tenetur eos reprehenderit provident vero delectus, numquam fugiat laudantium sit ab, ratione hic? Totam dolor hic beatae atque voluptatibus maiores nihil ut doloribus quam itaque cupiditate adipisci eum iure officia tempore ducimus eligendi recusandae laudantium aspernatur modi, non rem repudiandae! Quos rerum atque consectetur? Fugit temporibus, ipsa odit hic cum officiis optio omnis rem molestiae? Magnam quibusdam quia voluptas reiciendis quaerat alias quo culpa consectetur, deserunt, vero veniam aliquam aut praesentium atque provident tenetur. Itaque laudantium quo excepturi architecto id quod doloribus obcaecati similique voluptatibus cupiditate laboriosam iure ab aspernatur, fugit facere vel fugiat labore saepe vero eos repellendus necessitatibus officiis debitis reprehenderit. Ex, accusamus explicabo? Deleniti magnam reiciendis cupiditate eius possimus omnis fugiat tempora amet voluptates nostrum ex, numquam voluptatum tenetur laborum perferendis architecto, veniam iste.
-                </Typography>
-                {/* Add more content such as product listings, promotions, etc. */}
-            </Box>
+        <Box sx={{ mt: 'auto', textAlign: 'center', pb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Subscribe to our Newsletter
+          </Typography>
+          <TextField label="Email Address" variant="outlined" sx={{ mb: 2, width: '300px' }} />
+          <Button variant="contained" color="primary" sx={{ ml: 2, px: 4, '&:hover': { backgroundColor: '#0069d9' }, '&:active': { backgroundColor: '#004286' } }}>Subscribe</Button>
         </Box>
-    );
+      </Box>
+    </Box>
+  );
 }

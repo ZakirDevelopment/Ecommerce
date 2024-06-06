@@ -12,11 +12,13 @@ import SignUp from './Components/SignUp/signup';
 import ForgetPassword from './Components/SignUp/forgetPassword';
 import InventoryList from './Components/Inventory/InventoryList';
 import CollectivesList from './Components/Collectives/CollectivesList'
+import Cart from './Components/Cart/Cart.jsx'
+import CustomerService from './Components/CustomerService/CustomerService.jsx';
 function App() {
   return (
     <>
       <BrowserRouter>
-      {true?
+      {false?
       <Routes>
        <Route path='/' exact element={<SignInSide />} />
       <Route path='/signin' exact element={<SignInSide />} />
@@ -35,7 +37,9 @@ function App() {
                   <Route path='/about' exact element={<About />} />
                   <Route path='/accounts' exact element={<Accounts />} />
                   <Route path='/inventory' exact element={<InventoryList />} />
-                  <Route path='/Collectives' exact element={<CollectivesList />} />
+                  <Route path='/collectives' exact element={<CollectivesList />} />
+                  <Route path='/cart' exact element={<Cart />} />
+                  <Route path='/customerService' exact element={<CustomerService   />} />
 
                 </Routes> 
             </Box>
