@@ -1,25 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow,
-  Divider, Typography, Button, Box, Stack, TextField, Autocomplete, Modal
-} from '@mui/material';
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Divider,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  TextField,
+  Autocomplete,
+  Modal,
+} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { db } from '../../firebase-config';
+import { db } from "../../firebase-config";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
-import moment from 'moment';
-import AddCollectives from './AddCollectives';
+import moment from "moment";
+import AddCollectives from "./AddCollectives";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 600,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -101,8 +115,15 @@ export default function CollectivesList() {
           <AddCollectives CloseEvent={handleClose} onAdd={getUsers} />
         </Box>
       </Modal>
-      <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
-        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Collectives</Typography>
+      <Paper sx={{ width: "100%", overflow: "hidden", padding: "12px" }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ padding: "20px" }}
+        >
+          Collectives
+        </Typography>
         <Divider />
         <Box height={10} />
         <Stack direction="row" spacing={2} className="my-2 mb-2">
@@ -117,8 +138,16 @@ export default function CollectivesList() {
               <TextField {...params} size="small" label="Search Collectives" />
             )}
           />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-          <Button onClick={handleOpen} variant="contained" endIcon={<AddCircleIcon />}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            endIcon={<AddCircleIcon />}
+          >
             Add
           </Button>
         </Stack>
@@ -126,11 +155,21 @@ export default function CollectivesList() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Date</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Field</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Amount</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Valid</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Actions</TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Date
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Field
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Amount
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Valid
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -138,10 +177,16 @@ export default function CollectivesList() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align='left'>{moment.utc(row.date?.seconds * 1000).format('DD/MM/YYYY')}</TableCell>
-                    <TableCell align='left'>{row.field}</TableCell>
-                    <TableCell align='left'>{row.amount}</TableCell>
-                    <TableCell align='left'>{row.valid ? 'Yes' : 'No'}</TableCell>
+                    <TableCell align="left">
+                      {moment
+                        .utc(row.date?.seconds * 1000)
+                        .format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell align="left">{row.field}</TableCell>
+                    <TableCell align="left">{row.amount}</TableCell>
+                    <TableCell align="left">
+                      {row.valid ? "Yes" : "No"}
+                    </TableCell>
                     <TableCell align="left">
                       <Stack spacing={2} direction="row">
                         <EditIcon

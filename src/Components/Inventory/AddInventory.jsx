@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  TextField, Grid, Button, Typography, IconButton, Snackbar
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { db } from '../../firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
-import Swal from 'sweetalert2';
+  TextField,
+  Grid,
+  Button,
+  Typography,
+  IconButton,
+  Snackbar,
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { db } from "../../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 export default function AddInventory({ CloseEvent, onAdd }) {
   const [formValues, setFormValues] = useState({
-    productID: '',
-    productName: '',
-    productCategory: '',
-    purchasePrice: '',
-    sellingPrice: '',
-    quantity: '',
-    purchasedOn: new Date().toISOString().split('T')[0], // Default to today's date
-    supplier: '',
-    batchNumber: '',
-    imageURL: '', // Added imageURL to form state
+    productID: "",
+    productName: "",
+    productCategory: "",
+    purchasePrice: "",
+    sellingPrice: "",
+    quantity: "",
+    purchasedOn: new Date().toISOString().split("T")[0], // Default to today's date
+    supplier: "",
+    batchNumber: "",
+    imageURL: "", // Added imageURL to form state
   });
   const [formErrors, setFormErrors] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -26,7 +31,7 @@ export default function AddInventory({ CloseEvent, onAdd }) {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
-    if (value !== '') {
+    if (value !== "") {
       setFormErrors({ ...formErrors, [name]: false });
     }
   };
@@ -34,12 +39,12 @@ export default function AddInventory({ CloseEvent, onAdd }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const currentDate = new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split("T")[0];
 
     // Validate form fields
     const errors = {};
-    Object.keys(formValues).forEach(key => {
-      if (formValues[key] === '') {
+    Object.keys(formValues).forEach((key) => {
+      if (formValues[key] === "") {
         errors[key] = true;
       }
     });
@@ -53,11 +58,15 @@ export default function AddInventory({ CloseEvent, onAdd }) {
     }
 
     try {
-      await addDoc(collection(db, 'inventory'), formValues);
+      await addDoc(collection(db, "inventory"), formValues);
       onAdd();
       CloseEvent();
       // setSnackbarOpen(true); // Show success snackbar
-      Swal.fire("Added!", "Your Product has been added to the inventory.", "success");
+      Swal.fire(
+        "Added!",
+        "Your Product has been added to the inventory.",
+        "success"
+      );
     } catch (error) {
       console.error("Error adding document: ", error);
     }
@@ -75,20 +84,33 @@ export default function AddInventory({ CloseEvent, onAdd }) {
         onClose={handleCloseSnackbar}
         message="Item successfully added"
         action={
-          <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleCloseSnackbar}
+          >
             <CloseIcon fontSize="small" />
           </IconButton>
         }
       />
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Typography variant="h6">Add Inventory Item</Typography>
             <IconButton onClick={CloseEvent}>
               <CloseIcon />
             </IconButton>
           </Grid>
-       
+
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -97,7 +119,9 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               value={formValues.productName}
               onChange={handleInputChange}
               error={formErrors.productName}
-              helperText={formErrors.productName ? "Product Name is required" : ""}
+              helperText={
+                formErrors.productName ? "Product Name is required" : ""
+              }
             />
           </Grid>
 
@@ -120,7 +144,9 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               value={formValues.productCategory}
               onChange={handleInputChange}
               error={formErrors.productCategory}
-              helperText={formErrors.productCategory ? "Category is required" : ""}
+              helperText={
+                formErrors.productCategory ? "Category is required" : ""
+              }
             />
           </Grid>
           <Grid item xs={6}>
@@ -132,7 +158,9 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               value={formValues.purchasePrice}
               onChange={handleInputChange}
               error={formErrors.purchasePrice}
-              helperText={formErrors.purchasePrice ? "Purchase Price is required" : ""}
+              helperText={
+                formErrors.purchasePrice ? "Purchase Price is required" : ""
+              }
             />
           </Grid>
           <Grid item xs={6}>
@@ -144,7 +172,9 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               value={formValues.sellingPrice}
               onChange={handleInputChange}
               error={formErrors.sellingPrice}
-              helperText={formErrors.sellingPrice ? "Selling Price is required" : ""}
+              helperText={
+                formErrors.sellingPrice ? "Selling Price is required" : ""
+              }
             />
           </Grid>
           <Grid item xs={12}>
@@ -169,7 +199,11 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               value={formValues.purchasedOn}
               onChange={handleInputChange}
               error={formErrors.purchasedOn}
-              helperText={formErrors.purchasedOn ? "Purchased date cannot be in the future" : ""}
+              helperText={
+                formErrors.purchasedOn
+                  ? "Purchased date cannot be in the future"
+                  : ""
+              }
             />
           </Grid>
           <Grid item xs={6}>
@@ -191,7 +225,9 @@ export default function AddInventory({ CloseEvent, onAdd }) {
               value={formValues.batchNumber}
               onChange={handleInputChange}
               error={formErrors.batchNumber}
-              helperText={formErrors.batchNumber ? "Batch Number is required" : ""}
+              helperText={
+                formErrors.batchNumber ? "Batch Number is required" : ""
+              }
             />
           </Grid>
           <Grid item xs={12}>

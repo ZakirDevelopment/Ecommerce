@@ -1,27 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow,
-  Divider, Typography, Button, Box, Stack, TextField, Autocomplete, Modal, IconButton
-} from '@mui/material';
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Divider,
+  Typography,
+  Button,
+  Box,
+  Stack,
+  TextField,
+  Autocomplete,
+  Modal,
+  IconButton,
+} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SortIcon from "@mui/icons-material/Sort";
-import { db } from '../../firebase-config';
+import { db } from "../../firebase-config";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import Swal from "sweetalert2";
-import moment from 'moment';
-import AddInventory from './AddInventory';
-import zzx from "../../Pages/zzx.jpg"
+import moment from "moment";
+import AddInventory from "./AddInventory";
+import zzx from "../../Pages/zzx.jpg";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 600,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -108,8 +123,15 @@ export default function InventoryList() {
           <AddInventory CloseEvent={handleClose} onAdd={getUsers} />
         </Box>
       </Modal>
-      <Paper sx={{ width: '100%', overflow: 'hidden', padding: "12px" }}>
-        <Typography gutterBottom variant='h5' component='div' sx={{ padding: "20px" }}>Inventory</Typography>
+      <Paper sx={{ width: "100%", overflow: "hidden", padding: "12px" }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{ padding: "20px" }}
+        >
+          Inventory
+        </Typography>
         <Divider />
         <Box height={10} />
         <Stack direction="row" spacing={2} className="my-2 mb-2">
@@ -124,11 +146,19 @@ export default function InventoryList() {
               <TextField {...params} size="small" label="Search Inventory" />
             )}
           />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
           <IconButton onClick={toggleSortOrder}>
             <SortIcon />
           </IconButton>
-          <Button onClick={handleOpen} variant="contained" endIcon={<AddCircleIcon />}>
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            endIcon={<AddCircleIcon />}
+          >
             Add
           </Button>
         </Stack>
@@ -136,17 +166,39 @@ export default function InventoryList() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Product ID</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Image</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Product Name</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Category</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Purchase Price (₹)</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Selling Price (₹)</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Quantity</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Purchased On</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Supplier</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Batch Number</TableCell>
-                <TableCell align="left" style={{ minWidth: '50px' }}>Actions</TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Product ID
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Image
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Product Name
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Category
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Purchase Price (₹)
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Selling Price (₹)
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Quantity
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Purchased On
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Supplier
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Batch Number
+                </TableCell>
+                <TableCell align="left" style={{ minWidth: "50px" }}>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -154,18 +206,26 @@ export default function InventoryList() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    <TableCell align='left'>{row.productID}</TableCell>
-                    <TableCell align='left'>
-                      <img src={row.imgURL} alt={row.productName} style={{ width: '50px', height: '50px' }} />
+                    <TableCell align="left">{row.productID}</TableCell>
+                    <TableCell align="left">
+                      <img
+                        src={row.imgURL}
+                        alt={row.productName}
+                        style={{ width: "50px", height: "50px" }}
+                      />
                     </TableCell>
-                    <TableCell align='left'>{row.productName}</TableCell>
-                    <TableCell align='left'>{row.productCategory}</TableCell>
-                    <TableCell align='left'>{row.purchasePrice}</TableCell>
-                    <TableCell align='left'>{row.sellingPrice}</TableCell>
-                    <TableCell align='left'>{row.quantity}</TableCell>
-                    <TableCell align='left'>{moment.utc(row.purchasedOn?.seconds * 1000).format('DD/MM/YYYY')}</TableCell>
-                    <TableCell align='left'>{row.supplier}</TableCell>
-                    <TableCell align='left'>{row.batchNumber}</TableCell>
+                    <TableCell align="left">{row.productName}</TableCell>
+                    <TableCell align="left">{row.productCategory}</TableCell>
+                    <TableCell align="left">{row.purchasePrice}</TableCell>
+                    <TableCell align="left">{row.sellingPrice}</TableCell>
+                    <TableCell align="left">{row.quantity}</TableCell>
+                    <TableCell align="left">
+                      {moment
+                        .utc(row.purchasedOn?.seconds * 1000)
+                        .format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell align="left">{row.supplier}</TableCell>
+                    <TableCell align="left">{row.batchNumber}</TableCell>
                     <TableCell align="left">
                       <Stack spacing={2} direction="row">
                         <EditIcon
