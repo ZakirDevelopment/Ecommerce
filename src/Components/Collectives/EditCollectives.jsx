@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Stack } from '@mui/material';
-import { db } from '../../firebase-config';
-import { collection, updateDoc, doc } from 'firebase/firestore';
+import React, { useState } from "react";
+import { Box, Button, TextField, Typography, Stack } from "@mui/material";
+import { db } from "../../firebase-config";
+import { collection, updateDoc, doc } from "firebase/firestore";
 
 export default function EditCollectives({ data, CloseEvent, onUpdate }) {
   const [field, setField] = useState(data.field);
   const [amount, setAmount] = useState(data.amount);
   const [valid, setValid] = useState(data.valid);
-  const [date, setDate] = useState(data.date.toDate().toISOString().split('T')[0]);
+  const [date, setDate] = useState(
+    data.date.toDate().toISOString().split("T")[0]
+  );
 
   const handleSubmit = async () => {
-    await updateDoc(doc(db, 'collectives', data.id), {
+    await updateDoc(doc(db, "collectives", data.id), {
       field,
       amount,
       valid,
@@ -55,11 +57,11 @@ export default function EditCollectives({ data, CloseEvent, onUpdate }) {
           SelectProps={{
             native: true,
           }}
-          value={valid ? 'true' : 'false'}
-          onChange={(e) => setValid(e.target.value === 'true')}
+          value={valid ? "true" : "false"}
+          onChange={(e) => setValid(e.target.value === "true")}
         >
-          <option value={'true'}>Yes</option>
-          <option value={'false'}>No</option>
+          <option value={"true"}>Yes</option>
+          <option value={"false"}>No</option>
         </TextField>
         <Button variant="contained" onClick={handleSubmit}>
           Update

@@ -1,29 +1,33 @@
-import { Grid, IconButton, Typography, TextField, Box, Autocomplete, Button } from '@mui/material'
-import React, { useState } from 'react'
-import CloseIcon from "@mui/icons-material/Close";
-import { db } from '../../firebase-config';
 import {
-  collection,
-  getDocs,
-  addDoc,
-} from "firebase/firestore";
-import moment from 'moment';
-import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
-import { updateAccountsRows } from '../../redux/counter/counterSlice';
+  Grid,
+  IconButton,
+  Typography,
+  TextField,
+  Box,
+  Autocomplete,
+  Button,
+} from "@mui/material";
+import React, { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { db } from "../../firebase-config";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import moment from "moment";
+import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { updateAccountsRows } from "../../redux/counter/counterSlice";
 
 const Fields = [
-  { label: 'C1', year: "C1" },
-  { label: 'D1', year: "D1" },
-  { label: 'D2', year: "D2" },
-  { label: 'E1', year: "E1" },
+  { label: "C1", year: "C1" },
+  { label: "D1", year: "D1" },
+  { label: "D2", year: "D2" },
+  { label: "E1", year: "E1" },
 ];
 
 const styles = {
   container: {
-    padding: '20px',
-    maxWidth: '400px',
-    margin: '0 auto',
+    padding: "20px",
+    maxWidth: "400px",
+    margin: "0 auto",
   },
   closeButton: {
     position: "absolute",
@@ -31,8 +35,8 @@ const styles = {
     right: "5px",
   },
   submitButton: {
-    marginTop: '20px',
-  }
+    marginTop: "20px",
+  },
 };
 
 export default function AddCollectives({ CloseEvent }) {
@@ -63,12 +67,16 @@ export default function AddCollectives({ CloseEvent }) {
 
   const getAccounts = async () => {
     const data = await getDocs(empCollectionRef);
-    dispatch(updateAccountsRows(data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))));
+    dispatch(
+      updateAccountsRows(
+        data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      )
+    );
   };
 
   return (
     <div style={styles.container}>
-      <Typography variant='h5' align='center' gutterBottom>
+      <Typography variant="h5" align="center" gutterBottom>
         Add Account
       </Typography>
       <IconButton style={styles.closeButton} onClick={CloseEvent}>
@@ -99,10 +107,26 @@ export default function AddCollectives({ CloseEvent }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField id="amount" label="Amount" value={amount} onChange={handleAmountChange} variant="outlined" size='small' fullWidth />
+          <TextField
+            id="amount"
+            label="Amount"
+            value={amount}
+            onChange={handleAmountChange}
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
-          <TextField id="valid" label="Valid" type="checkbox" checked={valid} onChange={handleValidChange} size="small" fullWidth />
+          <TextField
+            id="valid"
+            label="Valid"
+            type="checkbox"
+            checked={valid}
+            onChange={handleValidChange}
+            size="small"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" onClick={createAccount} fullWidth>
