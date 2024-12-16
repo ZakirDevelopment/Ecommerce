@@ -1,14 +1,10 @@
-import * as React from 'react';
-import { useEffect } from 'react';
-import { styled  } from '@mui/material/styles';
+import React from 'react';
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,14 +14,23 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InfoIcon from '@mui/icons-material/Info';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; // Import the icon
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HelpIcon from '@mui/icons-material/Help';
-
-
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
+
+const routeTitleMap = {
+  '/': 'Home',
+  '/accounts': 'Accounts',
+  '/about': 'About',
+  '/inventory': 'Inventory',
+  '/collectives': 'Collectives',
+  '/cart': 'Cart',
+  '/CustomerService': 'Customer Service',
+};
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -34,16 +39,8 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: 'hidden',
+  borderRadius: '10px',
 });
-
-const routeTitleMap = {
-  '/': 'Home',
-  '/accounts': 'Accounts',
-  '/about': 'About',
-  '/inventory': 'Inventory',
-  '/collectives': 'Collectives',
-  '/cart': 'Cart', // Add route title for Cart
-};
 
 const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
@@ -55,6 +52,7 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  borderRadius: '10px',
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -62,7 +60,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -90,191 +87,70 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function SideNav() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const location = useLocation();
   const open = useSelector((state) => state.counter.openSideNav);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const path = location.pathname;
-    const title = routeTitleMap[path] || 'Default Title';
-    document.title = title;
-  }, [location]);
+  const renderDrawerContent = () => (
+    <List>
+      {['/', '/accounts', '/about', '/inventory', '/collectives', '/cart', '/CustomerService'].map((path, index) => {
+        const icons = [
+          <HomeIcon />,
+          <AccountCircleIcon />,
+          <InfoIcon />,
+          <InventoryIcon />,
+          <AccountBalanceIcon />,
+          <ShoppingCartIcon />,
+          <HelpIcon />
+        ];
+        const labels = ['Home', 'Accounts', 'About', 'Inventory', 'Collectives', 'Cart', 'Customer Service'];
+
+        return (
+          <ListItem key={labels[index]} disablePadding sx={{ display: 'block' }} onClick={() => navigate(path)}>
+            <ListItemButton
+              sx={{
+                background: location.pathname === path ? "#d1d3d5" : undefined,
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+                borderRadius: '10px',
+                margin: '5px 10px',
+                '&:hover': {
+                  background: '#e0e0e0',
+                },
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                  color: 'black',
+                }}
+              >
+                {icons[index]}
+              </ListItemIcon>
+              <ListItemText primary={labels[index]} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </List>
+  );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100vh', backgroundColor: '#f0f2f5' }}>
       <CssBaseline />
-
-      <Drawer variant="permanent" open={open}>
+      <Drawer
+        variant={isMobile ? 'temporary' : 'permanent'}
+        open={isMobile ? false : open}
+      >
         <DrawerHeader>
-          <IconButton onClick={() => dispatch({ type: 'TOGGLE_SIDENAV' })} sx={{ color: 'black' }}>
-            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+          <Divider />
         </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem key="Home" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem key="Accounts" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/accounts")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/accounts" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Accounts" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem key="About" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/about")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/about" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary="About" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem key="Inventory" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/inventory")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/inventory" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <InventoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="Inventory" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem key="Collectives" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/collectives")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/collectives" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <AccountBalanceIcon /> {/* Use the imported icon */}
-              </ListItemIcon>
-              <ListItemText primary="Collectives" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem key="Cart" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/cart")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/cart" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Cart" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem key="CustomerService" disablePadding sx={{ display: 'block' }} onClick={() => navigate("/CustomerService")}>
-            <ListItemButton
-              sx={{
-                background: location.pathname === "/Customer Service" ? "#d1d3d5" : undefined,
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'black',
-                }}
-              >
-                <HelpIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Customer Service" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-
-        </List>
+        {renderDrawerContent()}
       </Drawer>
     </Box>
   );
